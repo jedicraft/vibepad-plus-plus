@@ -74,3 +74,14 @@ pipeline:
                       ls -la dist/
                       echo "=== Index HTML ==="
                       head -20 dist/index.html
+              - step:
+                  identifier: upload_artifact_to_har
+                  name: Upload Artifact to HAR
+                  type: HarUpload
+                  timeout: 10m
+                  spec:
+                    registryRef: vibepad_ar
+                    packageType: GENERIC
+                    packageName: build-artifact
+                    packageVersion: <+pipeline.sequenceId>
+                    sourcePath: dist/
