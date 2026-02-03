@@ -28,7 +28,10 @@ pipeline:
             arch: Amd64
           runtime:
             type: Cloud
-            spec: {}
+            spec:
+              imageSpec:
+                imageName: "node:20-alpine "
+                connectorRef: account.DockerHub
           execution:
             steps:
               - step:
