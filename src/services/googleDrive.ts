@@ -128,9 +128,12 @@ export function isSignedIn(): boolean {
 }
 
 async function getUserInfo(): Promise<GoogleDriveUser> {
+  const token = gapi.client.getToken()
+  if (!token) throw new Error('No access token available')
+
   const response = await fetch('https://www.googleapis.com/oauth2/v2/userinfo', {
     headers: {
-      Authorization: `Bearer ${gapi.client.getToken().access_token}`,
+      Authorization: `Bearer ${token.access_token}`,
     },
   })
   const data = await response.json()
@@ -197,7 +200,9 @@ export async function saveToGoogleDrive(workspace: WorkspaceExport): Promise<voi
   form.append('metadata', new Blob([JSON.stringify(metadata)], { type: 'application/json' }))
   form.append('file', blob)
 
-  const token = gapi.client.getToken().access_token
+  const tokenData = gapi.client.getToken()
+  if (!tokenData) throw new Error('No access token available')
+  const token = tokenData.access_token
   const url = existingFileId
     ? `https://www.googleapis.com/upload/drive/v3/files/${existingFileId}?uploadType=multipart`
     : 'https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart'
