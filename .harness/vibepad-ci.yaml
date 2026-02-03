@@ -40,7 +40,7 @@ pipeline:
                     command: |-
                       node --version
                       npm --version
-                      npm ci
+                      npm install
               - step:
                   type: Run
                   name: Lint
