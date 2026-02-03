@@ -87,3 +87,29 @@ pipeline:
                     dockerfile: Dockerfile
                     context: .
                     registryRef: test_ar
+              - step:
+                  type: SscaOrchestration
+                  name: Generate SBOM
+                  identifier: Generate_SBOM
+                  spec:
+                    mode: generation
+                    tool:
+                      type: Syft
+                      spec:
+                        format: spdx-json
+                    source:
+                      type: har
+                      spec:
+                        registry: test_ar
+                        image: vibepad-plus-plus
+                    attestation:
+                      type: cosign
+                      spec:
+                        privateKey: cosign_private_key
+                        password: cosign_password
+                    sbom_drift:
+                      base: last_generated_sbom
+                    resources:
+                      limits:
+                        memory: 500Mi
+                        cpu: "0.5"
