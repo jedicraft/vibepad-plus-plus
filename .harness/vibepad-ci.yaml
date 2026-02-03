@@ -28,10 +28,7 @@ pipeline:
             arch: Amd64
           runtime:
             type: Cloud
-            spec:
-              imageSpec:
-                imageName: "node:20-alpine "
-                connectorRef: account.DockerHub
+            spec: {}
           execution:
             steps:
               - step:
@@ -39,6 +36,8 @@ pipeline:
                   name: Install Dependencies
                   identifier: Install_Dependencies
                   spec:
+                    connectorRef: account.DockerHub
+                    image: node:20-alpine
                     shell: Sh
                     command: |-
                       node --version
@@ -49,6 +48,8 @@ pipeline:
                   name: Lint
                   identifier: Lint
                   spec:
+                    connectorRef: DockerHub
+                    image: node:20-alpine
                     shell: Sh
                     command: npm run lint
               - step:
@@ -56,6 +57,8 @@ pipeline:
                   name: Build
                   identifier: Build
                   spec:
+                    connectorRef: DockerHub
+                    image: node:20-alpine
                     shell: Sh
                     command: npm run build
               - step:
@@ -63,6 +66,8 @@ pipeline:
                   name: Verify Build Output
                   identifier: Verify_Build_Output
                   spec:
+                    connectorRef: DockerHub
+                    image: node:20-alpine
                     shell: Sh
                     command: |-
                       echo "=== Build Output ==="
