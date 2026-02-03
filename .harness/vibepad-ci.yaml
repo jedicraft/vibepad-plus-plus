@@ -75,13 +75,15 @@ pipeline:
                       echo "=== Index HTML ==="
                       head -20 dist/index.html
               - step:
-                  identifier: upload_artifact_to_har
-                  name: Upload Artifact to HAR
-                  type: HarUpload
-                  timeout: 10m
+                  type: BuildAndPushDockerRegistry
+                  name: Build And Push Docker Image
+                  identifier: Build_And_Push_Docker_Image
                   spec:
-                    registryRef: vibepad_ar
-                    packageType: GENERIC
-                    packageName: build-artifact
-                    packageVersion: <+pipeline.sequenceId>
-                    sourcePath: dist/
+                    repo: vibepad-plus-plus
+                    tags:
+                      - <+pipeline.sequenceId>
+                      - latest
+                    caching: true
+                    dockerfile: Dockerfile
+                    context: .
+                    registryRef: test_ar
