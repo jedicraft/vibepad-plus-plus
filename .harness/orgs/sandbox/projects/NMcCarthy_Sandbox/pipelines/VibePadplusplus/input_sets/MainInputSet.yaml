@@ -1,0 +1,14 @@
+inputSet:
+  name: MainInputSet
+  identifier: MainInputSet
+  orgIdentifier: sandbox
+  projectIdentifier: NMcCarthy_Sandbox
+  pipeline:
+    identifier: VibePadplusplus
+    properties:
+      ci:
+        codebase:
+          build:
+            type: branch
+            spec:
+              branch: main
