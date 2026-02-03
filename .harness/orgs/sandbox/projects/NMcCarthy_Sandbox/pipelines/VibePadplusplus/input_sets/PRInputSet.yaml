@@ -1,0 +1,14 @@
+inputSet:
+  name: PRInputSet
+  identifier: PRInputSet
+  orgIdentifier: sandbox
+  projectIdentifier: NMcCarthy_Sandbox
+  pipeline:
+    identifier: VibePadplusplus
+    properties:
+      ci:
+        codebase:
+          build:
+            type: PR
+            spec:
+              number: <+trigger.sourceBranch>
