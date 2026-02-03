@@ -1,0 +1,62 @@
+pipeline:
+  name: Vibepad CI
+  identifier: vibepad_ci
+  projectIdentifier: ${HARNESS_PROJECT_ID}
+  orgIdentifier: ${HARNESS_ORG_ID}
+  tags: {}
+  properties:
+    ci:
+      codebase:
+        connectorRef: ${GITHUB_CONNECTOR}
+        repoName: jedicraft/vibepad-plus-plus
+        build: <+input>
+  stages:
+    - stage:
+        name: Build and Test
+        identifier: build_and_test
+        type: CI
+        spec:
+          cloneCodebase: true
+          platform:
+            os: Linux
+            arch: Amd64
+          runtime:
+            type: Cloud
+            spec: {}
+          execution:
+            steps:
+              - step:
+                  type: Run
+                  name: Install Dependencies
+                  identifier: install_dependencies
+                  spec:
+                    shell: Sh
+                    command: |
+                      node --version
+                      npm --version
+                      npm ci
+              - step:
+                  type: Run
+                  name: Lint
+                  identifier: lint
+                  spec:
+                    shell: Sh
+                    command: npm run lint
+              - step:
+                  type: Run
+                  name: Build
+                  identifier: build
+                  spec:
+                    shell: Sh
+                    command: npm run build
+              - step:
+                  type: Run
+                  name: Verify Build Output
+                  identifier: verify_build
+                  spec:
+                    shell: Sh
+                    command: |
+                      echo "=== Build Output ==="
+                      ls -la dist/
+                      echo "=== Index HTML ==="
+                      head -20 dist/index.html
