@@ -60,7 +60,7 @@ pipeline:
                     auth:
                       access_token: <+secrets.getValue("snyk_token")>
                     sbom:
-                      generate: true
+                      generate: false
                       format: spdx-json
               - step:
                   type: Run
@@ -71,6 +71,25 @@ pipeline:
                     image: node:20-alpine
                     shell: Sh
                     command: npm run lint
+              - step:
+                  type: Sonarqube
+                  name: Sonarqube SAST Scan
+                  identifier: Sonarqube_SAST_Scan
+                  spec:
+                    mode: orchestration
+                    config: default
+                    target:
+                      type: repository
+                      detection: auto
+                    advanced:
+                      log:
+                        level: info
+                      args:
+                        cli: "-Dsonar.organization=jedicraft -Dsonar.java.binaries=target/jhttp-1.0-SNAPSHOT.jar"
+                    auth:
+                      access_token: <+secrets.getValue("sonarqube_token")>
+                      domain: https://sonarcloud.io
+                      ssl: true
               - step:
                   type: Run
                   name: Build
