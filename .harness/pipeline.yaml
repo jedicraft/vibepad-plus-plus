@@ -1,0 +1,204 @@
+pipeline:
+  name: Vibepad CI/CD
+  identifier: vibepad_cicd
+  projectIdentifier: vibepad
+  orgIdentifier: default
+  tags: {}
+  stages:
+    - stage:
+        name: Build
+        identifier: build
+        type: CI
+        spec:
+          cloneCodebase: true
+          infrastructure:
+            type: KubernetesDirect
+            spec:
+              connectorRef: <+input>
+              namespace: harness-build
+          execution:
+            steps:
+              - step:
+                  type: Run
+                  name: Install Dependencies
+                  identifier: install_deps
+                  spec:
+                    connectorRef: <+input>
+                    image: node:20-alpine
+                    shell: Sh
+                    command: |
+                      npm ci
+              - step:
+                  type: Run
+                  name: Lint
+                  identifier: lint
+                  spec:
+                    connectorRef: <+input>
+                    image: node:20-alpine
+                    shell: Sh
+                    command: |
+                      npm run lint
+              - step:
+                  type: Run
+                  name: Build
+                  identifier: build_app
+                  spec:
+                    connectorRef: <+input>
+                    image: node:20-alpine
+                    shell: Sh
+                    command: |
+                      npm run build
+              - step:
+                  type: BuildAndPushGCR
+                  name: Build and Push Docker Image
+                  identifier: build_push_gcr
+                  spec:
+                    connectorRef: <+input>
+                    host: gcr.io
+                    projectID: <+input>
+                    imageName: vibepad
+                    tags:
+                      - <+pipeline.sequenceId>
+                      - latest
+                    dockerfile: Dockerfile
+                    context: .
+
+    - stage:
+        name: Deploy to Test
+        identifier: deploy_test
+        type: Deployment
+        spec:
+          deploymentType: Kubernetes
+          service:
+            serviceRef: vibepad_service
+            serviceInputs:
+              serviceDefinition:
+                type: Kubernetes
+                spec:
+                  artifacts:
+                    primary:
+                      primaryArtifactRef: <+input>
+                      sources: <+input>
+          environment:
+            environmentRef: test
+            deployToAll: false
+            infrastructureDefinitions:
+              - identifier: test_k8s
+          execution:
+            steps:
+              - step:
+                  type: TerraformPlan
+                  name: Tofu Plan
+                  identifier: tofu_plan
+                  spec:
+                    configuration:
+                      command: Apply
+                      configFiles:
+                        store:
+                          type: Github
+                          spec:
+                            gitFetchType: Branch
+                            connectorRef: <+input>
+                            branch: main
+                            folderPath: tofu
+                      secretManagerRef: <+input>
+                    provisionerIdentifier: vibepad_test_infra
+              - step:
+                  type: TerraformApply
+                  name: Tofu Apply
+                  identifier: tofu_apply
+                  spec:
+                    configuration:
+                      type: InheritFromPlan
+                    provisionerIdentifier: vibepad_test_infra
+              - step:
+                  type: K8sRollingDeploy
+                  name: Rolling Deployment
+                  identifier: rolling_deploy
+                  spec:
+                    skipDryRun: false
+                    pruningEnabled: false
+              - step:
+                  type: Http
+                  name: Health Check
+                  identifier: health_check
+                  spec:
+                    url: http://<+pipeline.stages.deploy_test.spec.execution.steps.rolling_deploy.output.publicIp>/health
+                    method: GET
+                    assertion: <+httpResponseCode> == 200
+                    headers: []
+            rollbackSteps:
+              - step:
+                  type: K8sRollingRollback
+                  name: Rollback
+                  identifier: rollback
+                  spec:
+                    pruningEnabled: false
+
+    - stage:
+        name: Deploy to Production
+        identifier: deploy_prod
+        type: Deployment
+        spec:
+          deploymentType: Kubernetes
+          service:
+            serviceRef: vibepad_service
+            serviceInputs:
+              serviceDefinition:
+                type: Kubernetes
+                spec:
+                  artifacts:
+                    primary:
+                      primaryArtifactRef: <+input>
+                      sources: <+input>
+          environment:
+            environmentRef: production
+            deployToAll: false
+            infrastructureDefinitions:
+              - identifier: prod_k8s
+          execution:
+            steps:
+              - step:
+                  type: HarnessApproval
+                  name: Approval
+                  identifier: approval
+                  spec:
+                    approvalMessage: Please review and approve deployment to production
+                    includePipelineExecutionHistory: true
+                    approvers:
+                      userGroups:
+                        - <+input>
+                      minimumCount: 1
+                      disallowPipelineExecutor: false
+              - step:
+                  type: K8sRollingDeploy
+                  name: Rolling Deployment
+                  identifier: prod_rolling_deploy
+                  spec:
+                    skipDryRun: false
+                    pruningEnabled: false
+            rollbackSteps:
+              - step:
+                  type: K8sRollingRollback
+                  name: Rollback
+                  identifier: prod_rollback
+                  spec:
+                    pruningEnabled: false
+        when:
+          pipelineStatus: Success
+          condition: <+pipeline.variables.deploy_to_prod> == "true"
+
+  variables:
+    - name: deploy_to_prod
+      type: String
+      default: "false"
+      description: Set to true to deploy to production
+      required: false
+      value: "false"
+
+  properties:
+    ci:
+      codebase:
+        connectorRef: <+input>
+        repoName: vibepad
+        build: <+input>

@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: vibepad-config
+  labels:
+    app: vibepad
+data:
+  # Note: These values are injected at build time for the frontend
+  # They are included here for documentation purposes
+  VITE_GOOGLE_CLIENT_ID: ""
+  VITE_GOOGLE_API_KEY: ""
