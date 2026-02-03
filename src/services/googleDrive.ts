@@ -270,6 +270,7 @@ export class GoogleDriveSyncManager {
 export const googleDriveSyncManager = new GoogleDriveSyncManager()
 
 // Type declarations for Google APIs
+/* eslint-disable @typescript-eslint/no-namespace */
 declare global {
   interface Window {
     gapi: typeof gapi

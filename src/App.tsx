@@ -19,7 +19,7 @@ import { SplitPane } from '@/components/SplitPane'
 import { FindReplace } from '@/components/FindReplace'
 
 function App() {
-  const { files, tabs, splitConfig, setFiles, setTabs, setSplitConfig } = useFileStore()
+  const { files, tabs, setFiles, setTabs, setSplitConfig } = useFileStore()
   const { settings, updateSettings, isSidebarOpen } = useSettingsStore()
 
   // Initialize keyboard shortcuts

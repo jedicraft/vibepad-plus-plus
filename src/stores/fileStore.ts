@@ -368,7 +368,6 @@ export const useFileStore = create<FileStore>((set, get) => ({
       if (!pane) return state
 
       const tabsToKeep = [tabId]
-      const tabsToRemove = pane.tabIds.filter((id) => id !== tabId)
 
       const otherPaneTabIds = state.splitConfig.panes
         .filter((p) => p.id !== paneId)
@@ -499,7 +498,6 @@ export const useFileStore = create<FileStore>((set, get) => ({
       if (state.splitConfig.panes.length <= 1) return state
 
       const remainingPanes = state.splitConfig.panes.filter((p) => p.id !== paneId)
-      const closedPane = state.splitConfig.panes.find((p) => p.id === paneId)
 
       const otherPaneTabIds = remainingPanes.flatMap((p) => p.tabIds)
       const newTabs = state.tabs.filter((t) => otherPaneTabIds.includes(t.id))

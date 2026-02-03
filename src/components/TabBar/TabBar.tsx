@@ -1,4 +1,4 @@
-import { useState, useRef, useCallback } from 'react'
+import { useState } from 'react'
 import { X, MoreHorizontal, Copy, FileText } from 'lucide-react'
 import { useFileStore } from '@/stores/fileStore'
 
@@ -15,7 +15,6 @@ export function TabBar({ paneId }: TabBarProps) {
   const [draggedTabId, setDraggedTabId] = useState<string | null>(null)
 
   const {
-    tabs,
     splitConfig,
     closeTab,
     closeOtherTabs,

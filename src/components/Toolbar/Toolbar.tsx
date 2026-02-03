@@ -11,7 +11,6 @@ import {
   Columns,
   Rows,
   Cloud,
-  CloudOff,
   LogIn,
   LogOut,
   RefreshCw,
@@ -19,9 +18,6 @@ import {
 import { useFileStore } from '@/stores/fileStore'
 import { useSettingsStore } from '@/stores/settingsStore'
 import {
-  saveFiles,
-  saveTabs,
-  saveSplitConfig,
   exportWorkspace,
   downloadWorkspaceAsJson,
   importWorkspaceFromJson,
@@ -49,7 +45,6 @@ export function Toolbar() {
     splitPane,
     setFiles,
     setTabs,
-    setSplitConfig,
   } = useFileStore()
 
   const {
@@ -79,15 +74,6 @@ export function Toolbar() {
   const handleSave = () => {
     const tab = getActiveTab()
     if (tab) saveTab(tab.id)
-  }
-
-  const handleSaveAll = async () => {
-    // Save all dirty tabs
-    tabs.filter((t) => t.isDirty).forEach((t) => saveTab(t.id))
-    // Persist to IndexedDB
-    await saveFiles(files)
-    await saveTabs(tabs)
-    await saveSplitConfig(splitConfig)
   }
 
   const handleExport = () => {

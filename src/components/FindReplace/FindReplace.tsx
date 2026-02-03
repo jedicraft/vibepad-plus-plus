@@ -183,7 +183,11 @@ export function FindReplace() {
               onChange={(e) => setFindOptions({ searchText: e.target.value })}
               onKeyDown={(e) => {
                 if (e.key === 'Enter') {
-                  e.shiftKey ? goToMatch(currentMatchIndex - 1) : goToMatch(currentMatchIndex + 1)
+                  if (e.shiftKey) {
+                    goToMatch(currentMatchIndex - 1)
+                  } else {
+                    goToMatch(currentMatchIndex + 1)
+                  }
                 }
                 if (e.key === 'Escape') closeFindReplace()
               }}

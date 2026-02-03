@@ -1,4 +1,4 @@
-import { useEffect, useCallback } from 'react'
+import { useEffect, useCallback, useMemo } from 'react'
 import { useFileStore } from '@/stores/fileStore'
 import { useSettingsStore } from '@/stores/settingsStore'
 
@@ -31,7 +31,7 @@ export function useKeyboardShortcuts() {
     return tabs.find((t) => t.id === activePane.activeTabId)
   }, [splitConfig, activePaneId, tabs])
 
-  const shortcuts: ShortcutHandler[] = [
+  const shortcuts: ShortcutHandler[] = useMemo(() => [
     {
       key: 's',
       ctrl: true,
@@ -90,7 +90,7 @@ export function useKeyboardShortcuts() {
       action: () => splitPane('horizontal'),
       description: 'Split editor horizontally',
     },
-  ]
+  ], [getActiveTab, saveTab, addFile, openFile, closeTab, toggleFindReplace, toggleSidebar, splitPane])
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
