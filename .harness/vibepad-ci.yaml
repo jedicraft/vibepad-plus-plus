@@ -117,7 +117,7 @@ pipeline:
                   name: Build And Push Docker Image
                   identifier: Build_And_Push_Docker_Image
                   spec:
-                    repo: vibepad-plus-plus
+                    repo: vibepadpp
                     tags:
                       - <+pipeline.sequenceId>
                       - latest
