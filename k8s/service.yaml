@@ -13,23 +13,3 @@ spec:
       name: http
   selector:
     app: vibepad
----
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: vibepad-ingress
-  annotations:
-    kubernetes.io/ingress.class: "gce"
-    kubernetes.io/ingress.global-static-ip-name: "vibepad-ip"
-spec:
-  rules:
-    - host: vibepad.example.com
-      http:
-        paths:
-          - path: /
-            pathType: Prefix
-            backend:
-              service:
-                name: vibepad
-                port:
-                  number: 80

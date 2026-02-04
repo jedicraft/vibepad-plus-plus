@@ -21,13 +21,10 @@ spec:
     spec:
       containers:
         - name: vibepad
-          image: gcr.io/PROJECT_ID/vibepad:latest
+          image: <+artifact.image>
           ports:
             - containerPort: 80
               protocol: TCP
-          envFrom:
-            - configMapRef:
-                name: vibepad-config
           resources:
             requests:
               memory: "64Mi"
