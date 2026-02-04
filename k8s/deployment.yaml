@@ -21,7 +21,7 @@ spec:
     spec:
       containers:
         - name: vibepad
-          image: <+artifact.image>
+          image: <+artifacts.primary.image>
           ports:
             - containerPort: 80
               protocol: TCP
