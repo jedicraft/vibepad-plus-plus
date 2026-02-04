@@ -187,8 +187,7 @@ pipeline:
                 spec:
                   artifacts:
                     primary:
-                      primaryArtifactRef: <+input>
-                      sources: <+input>
+                      primaryArtifactRef: vibepadplusplus
           environment:
             environmentRef: NMcCarthyGCP
             deployToAll: false
