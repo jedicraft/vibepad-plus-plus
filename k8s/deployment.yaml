@@ -25,7 +25,7 @@ spec:
       containers:
         - name: vibepad
           # Using the specific primary artifact expression
-          image: <+artifacts.primary.image>
+          image: <+pipeline.stages.Build_and_Test.spec.execution.steps.Build_And_Push_Docker_Image.artifact_Build_And_Push_Docker_Image.stepArtifacts.publishedImageArtifacts[0].imageName>
           ports:
             - containerPort: 80
               protocol: TCP
