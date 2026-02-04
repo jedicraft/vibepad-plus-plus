@@ -126,6 +126,27 @@ pipeline:
                     context: .
                     registryRef: test_ar
               - step:
+                  type: AquaTrivy
+                  name: Aqua Trivy Container Scan
+                  identifier: Aqua_Trivy_Container_Scan
+                  spec:
+                    mode: orchestration
+                    config: default
+                    target:
+                      type: container
+                      detection: auto
+                    advanced:
+                      log:
+                        level: info
+                    privileged: true
+                    imageTag: latest
+                    image:
+                      type: harness
+                      registry: test_ar
+                      image_path: pkg.harness.io/eerjnxtns4grlg5vnnjzuw/test_ar/vibepad-plus-plus
+                    sbom:
+                      format: spdx-json
+              - step:
                   type: SscaOrchestration
                   name: Generate SBOM
                   identifier: Generate_SBOM
