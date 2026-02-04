@@ -143,7 +143,7 @@ pipeline:
                     image:
                       type: harness
                       registry: test_ar
-                      image_path: pkg.harness.io/eerjnxtns4grlg5vnnjzuw/test_ar/vibepad-plus-plus
+                      image_path: vibepad-plus-plus
                     sbom:
                       format: spdx-json
               - step:
