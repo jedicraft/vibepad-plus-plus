@@ -21,7 +21,7 @@ spec:
     spec:
       containers:
         - name: vibepad
-          image: vibepadpp:latest
+          image: pkg.harness.io/eerjnxtns4grlg5vnnjzuw/test_ar/vibepadpp:latest
           ports:
             - containerPort: 80
               protocol: TCP
