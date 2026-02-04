@@ -25,7 +25,7 @@ spec:
       containers:
         - name: vibepad
           # Using the specific primary artifact expression
-          image: <+artifacts.primary.image>
+          image: <+artifact.image>
           ports:
             - containerPort: 80
               protocol: TCP
