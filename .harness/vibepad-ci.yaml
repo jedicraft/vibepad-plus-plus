@@ -211,3 +211,5 @@ pipeline:
                 - AllErrors
               action:
                 type: StageRollback
+        delegateSelectors:
+          - nmccarthy-kubernetes-delegate
