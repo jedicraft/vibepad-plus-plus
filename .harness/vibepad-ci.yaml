@@ -181,13 +181,6 @@ pipeline:
           deploymentType: Kubernetes
           service:
             serviceRef: vibepad
-            serviceInputs:
-              serviceDefinition:
-                type: Kubernetes
-                spec:
-                  artifacts:
-                    primary:
-                      primaryArtifactRef: vibepadplusplus
           environment:
             environmentRef: NMcCarthyGCP
             deployToAll: false
