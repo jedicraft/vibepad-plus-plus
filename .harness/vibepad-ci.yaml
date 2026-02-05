@@ -213,3 +213,6 @@ pipeline:
                 type: StageRollback
         delegateSelectors:
           - nmccarthy-kubernetes-delegate
+        when:
+          pipelineStatus: Success
+          condition: "condition: false"
