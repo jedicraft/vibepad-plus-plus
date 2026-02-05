@@ -215,4 +215,4 @@ pipeline:
           - nmccarthy-kubernetes-delegate
         when:
           pipelineStatus: Success
-          condition: "condition: false"
+          condition: "false"
