@@ -174,7 +174,7 @@ pipeline:
                         cpu: "0.5"
         when:
           pipelineStatus: Success
-          condition: <+trigger.type> != "MANUAL"
+          condition: <+trigger.type> != "MANUALLY"
     - stage:
         name: Deploy to GCP
         identifier: Deploy_to_GCP
