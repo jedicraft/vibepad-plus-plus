@@ -25,7 +25,8 @@ spec:
       containers:
         - name: vibepad
           # Using the specific primary artifact expression
-          image:  <+artifact.image> 
+          image: {{ .Values.image }}  # Use this standard Helm-style placeholder
+          #image:  <+artifact.image> 
           #image: pkg.harness.io/eerjnxtns4grlg5vnnjzuw/test_ar/vibepadpp:latest - old image line
           imagePullPolicy: Always
           ports:
