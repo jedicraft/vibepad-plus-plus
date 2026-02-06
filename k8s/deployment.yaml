@@ -26,6 +26,7 @@ spec:
         - name: vibepad
           # Using the specific primary artifact expression
           image: pkg.harness.io/eerjnxtns4grlg5vnnjzuw/test_ar/vibepadpp:latest
+          imagePullPolicy: Always
           ports:
             - containerPort: 80
               protocol: TCP
