@@ -27,7 +27,8 @@ spec:
           # Using the specific primary artifact expression
           image: {{ .Values.image }}  # Use this standard Helm-style placeholder
           #image:  <+artifact.image> 
-          #image: pkg.harness.io/eerjnxtns4grlg5vnnjzuw/test_ar/vibepadpp:latest - old image line
+          #image: pkg.harness.io/eerjnxtns4grlg5vnnjzuw/test_ar/vibepadpp:latest - old image line; 
+          #adding an extra nonsense line to force full deployment
           imagePullPolicy: Always
           ports:
             - containerPort: 80
