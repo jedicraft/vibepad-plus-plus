@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useState, useCallback } from 'react'
 import { Panel, PanelGroup, PanelResizeHandle } from 'react-resizable-panels'
 import { useFileStore } from '@/stores/fileStore'
 import { useSettingsStore } from '@/stores/settingsStore'
@@ -17,8 +17,17 @@ import { Toolbar } from '@/components/Toolbar'
 import { FileTree } from '@/components/FileTree'
 import { SplitPane } from '@/components/SplitPane'
 import { FindReplace } from '@/components/FindReplace'
+import { SplashScreen } from '@/components/SplashScreen'
 
 function App() {
+  const [licenseAccepted, setLicenseAccepted] = useState(() => {
+    return localStorage.getItem('vibepad-license-accepted') === 'true'
+  })
+
+  const handleLicenseAccept = useCallback(() => {
+    setLicenseAccepted(true)
+  }, [])
+
   const { files, tabs, setFiles, setTabs, setSplitConfig } = useFileStore()
   const { settings, updateSettings, isSidebarOpen } = useSettingsStore()
 
@@ -86,6 +95,10 @@ function App() {
     window.addEventListener('beforeunload', handleUnload)
     return () => window.removeEventListener('beforeunload', handleUnload)
   }, [])
+
+  if (!licenseAccepted) {
+    return <SplashScreen onAccept={handleLicenseAccept} />
+  }
 
   return (
     <div className="h-screen flex flex-col bg-editor-bg overflow-hidden">
