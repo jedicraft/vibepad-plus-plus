@@ -25,7 +25,8 @@ spec:
       containers:
         - name: vibepad
           # Using the specific primary artifact expression
-          image: pkg.harness.io/eerjnxtns4grlg5vnnjzuw/test_ar/vibepadpp:<+pipeline.sequenceId>
+          image:  <+artifact.image> 
+          #image: pkg.harness.io/eerjnxtns4grlg5vnnjzuw/test_ar/vibepadpp:latest - old image line
           imagePullPolicy: Always
           ports:
             - containerPort: 80
