@@ -20,8 +20,8 @@ spec:
         app: vibepad
     spec:
       # This links to the secret you found in your cluster
-      #imagePullSecrets:
-      #  - name: harness-pull-secret
+      imagePullSecrets:
+        - name: harness-pull-secret
       containers:
         - name: vibepad
           # Using the specific primary artifact expression
