@@ -14,6 +14,7 @@ import {
   LogIn,
   LogOut,
   RefreshCw,
+  Info,
 } from 'lucide-react'
 import { useFileStore } from '@/stores/fileStore'
 import { useSettingsStore } from '@/stores/settingsStore'
@@ -55,6 +56,7 @@ export function Toolbar() {
     signOutGoogleDrive,
     toggleFindReplace,
     toggleSidebar,
+    openAbout,
   } = useSettingsStore()
 
   const getActiveTab = () => {
@@ -389,6 +391,19 @@ export function Toolbar() {
                     className="rounded"
                   />
                 </label>
+
+                <div className="border-t border-editor-border my-2" />
+
+                <button
+                  className="w-full px-3 py-1.5 text-left text-sm text-editor-text hover:bg-editor-hover flex items-center gap-2"
+                  onClick={() => {
+                    setShowSettingsMenu(false)
+                    openAbout()
+                  }}
+                >
+                  <Info size={14} />
+                  About Vibepad++
+                </button>
               </div>
             </>
           )}

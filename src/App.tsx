@@ -29,7 +29,7 @@ function App() {
   }, [])
 
   const { files, tabs, setFiles, setTabs, setSplitConfig } = useFileStore()
-  const { settings, updateSettings, isSidebarOpen } = useSettingsStore()
+  const { settings, updateSettings, isSidebarOpen, isAboutOpen, closeAbout } = useSettingsStore()
 
   // Initialize keyboard shortcuts
   useKeyboardShortcuts()
@@ -120,6 +120,14 @@ function App() {
         </PanelGroup>
 
         <FindReplace />
+
+        {isAboutOpen && (
+          <SplashScreen
+            mode="about"
+            onAccept={() => {}}
+            onClose={closeAbout}
+          />
+        )}
       </div>
 
       <div className="flex items-center justify-between px-3 py-1 bg-editor-sidebar border-t border-editor-border text-xs text-editor-text-muted">

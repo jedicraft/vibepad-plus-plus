@@ -7,6 +7,7 @@ interface SettingsStore {
   findOptions: FindOptions
   isFindReplaceOpen: boolean
   isSidebarOpen: boolean
+  isAboutOpen: boolean
 
   // Settings operations
   updateSettings: (updates: Partial<EditorSettings>) => void
@@ -24,6 +25,8 @@ interface SettingsStore {
   // UI operations
   toggleSidebar: () => void
   setSidebarOpen: (open: boolean) => void
+  openAbout: () => void
+  closeAbout: () => void
 }
 
 const defaultSettings: EditorSettings = {
@@ -61,6 +64,7 @@ export const useSettingsStore = create<SettingsStore>((set) => ({
   findOptions: defaultFindOptions,
   isFindReplaceOpen: false,
   isSidebarOpen: true,
+  isAboutOpen: false,
 
   updateSettings: (updates) =>
     set((state) => ({
@@ -94,4 +98,10 @@ export const useSettingsStore = create<SettingsStore>((set) => ({
 
   setSidebarOpen: (open) =>
     set({ isSidebarOpen: open }),
+
+  openAbout: () =>
+    set({ isAboutOpen: true }),
+
+  closeAbout: () =>
+    set({ isAboutOpen: false }),
 }))
