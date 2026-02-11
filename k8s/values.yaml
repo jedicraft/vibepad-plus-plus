@@ -4,3 +4,5 @@ image: <+artifact.image>
 # You can also parameterize other things here if you want
 replicas: 2
 nameOverride: vibepad
+
+# to force a executiion
