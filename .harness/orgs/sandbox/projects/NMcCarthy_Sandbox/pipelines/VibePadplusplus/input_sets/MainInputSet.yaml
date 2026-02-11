@@ -1,5 +1,6 @@
 inputSet:
   name: MainInputSet
+  tags: {}
   identifier: MainInputSet
   orgIdentifier: sandbox
   projectIdentifier: NMcCarthy_Sandbox
@@ -12,3 +13,16 @@ inputSet:
             type: branch
             spec:
               branch: main
+    stages:
+      - stage:
+          identifier: Deploy_to_Local
+          type: Deployment
+          spec:
+            service:
+              serviceInputs:
+                serviceDefinition:
+                  type: Kubernetes
+                  spec:
+                    artifacts:
+                      primary:
+                        primaryArtifactRef: vibepadpp
