@@ -195,8 +195,7 @@ pipeline:
           environment:
             environmentRef: nmccarthylocal
             deployToAll: false
-            infrastructureDefinitions:
-              - identifier: nmccarthylocal
+            infrastructureDefinitions: <+input>
           execution:
             steps:
               - step:
