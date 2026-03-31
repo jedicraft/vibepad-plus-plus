@@ -1,5 +1,4 @@
 import { useEffect, useState, useCallback } from 'react'
-import _ from 'lodash'
 import { Panel, PanelGroup, PanelResizeHandle } from 'react-resizable-panels'
 import { useFileStore } from '@/stores/fileStore'
 import { useSettingsStore } from '@/stores/settingsStore'
