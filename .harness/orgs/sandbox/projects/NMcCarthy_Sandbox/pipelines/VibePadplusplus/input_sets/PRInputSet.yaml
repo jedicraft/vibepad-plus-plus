@@ -11,4 +11,4 @@ inputSet:
           build:
             type: PR
             spec:
-              number: <+trigger.sourceBranch>
+              number: <+trigger.prNumber>
