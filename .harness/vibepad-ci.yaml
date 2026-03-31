@@ -187,8 +187,7 @@ pipeline:
                         memory: 500Mi
                         cpu: "0.5"
         when:
-          pipelineStatus: Success
-          condition: <+pipeline.triggerType> != "MANUAL"
+          pipelineStatus: All
     - stage:
         name: Deploy to Local
         identifier: Deploy_to_Local
