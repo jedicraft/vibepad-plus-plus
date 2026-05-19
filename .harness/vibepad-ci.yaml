@@ -12,6 +12,33 @@ pipeline:
         build: <+input>
   stages:
     - stage:
+        name: Holder Stage
+        identifier: Holder_Stage
+        description: ""
+        type: CI
+        spec:
+          cloneCodebase: true
+          caching:
+            enabled: true
+            override: false
+          buildIntelligence:
+            enabled: true
+          platform:
+            os: Linux
+            arch: Amd64
+          runtime:
+            type: Cloud
+            spec: {}
+          execution:
+            steps:
+              - step:
+                  type: Run
+                  name: Run Script
+                  identifier: Run_Script
+                  spec:
+                    shell: Sh
+                    command: ls -lha
+    - stage:
         name: Starting Approval
         identifier: Starting_Approval
         description: ""
