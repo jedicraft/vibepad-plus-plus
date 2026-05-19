@@ -211,7 +211,7 @@ pipeline:
                         memory: 500Mi
                         cpu: "0.5"
         when:
-          pipelineStatus: All
+          pipelineStatus: Failure
     - stage:
         name: Deploy to Local
         identifier: Deploy_to_Local
@@ -258,6 +258,8 @@ pipeline:
                 - AllErrors
               action:
                 type: StageRollback
+        when:
+          pipelineStatus: Failure
     - stage:
         name: Deploy to GCP
         identifier: Deploy_to_GCP
@@ -300,5 +302,5 @@ pipeline:
         delegateSelectors:
           - nmccarthy-kubernetes-delegate
         when:
-          pipelineStatus: Success
+          pipelineStatus: Failure
           condition: "false"
