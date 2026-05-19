@@ -12,6 +12,30 @@ pipeline:
         build: <+input>
   stages:
     - stage:
+        name: Starting Approval
+        identifier: Starting_Approval
+        description: ""
+        type: Approval
+        spec:
+          execution:
+            steps:
+              - step:
+                  name: Approval for MCP Test
+                  identifier: Approval_for_MCP_Test
+                  type: HarnessApproval
+                  timeout: 1d
+                  spec:
+                    approvalMessage: Welcome to the Vibepad-plus-plus pipeline! Before continuing this testing pipeline, please approve it!
+                    includePipelineExecutionHistory: true
+                    approvers:
+                      minimumCount: 1
+                      disallowPipelineExecutor: false
+                      userGroups:
+                        - _project_all_users
+                    isAutoRejectEnabled: false
+                    approverInputs: []
+        tags: {}
+    - stage:
         name: Build and Test
         identifier: Build_and_Test
         description: ""
