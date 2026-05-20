@@ -12,6 +12,57 @@ pipeline:
         build: <+input>
   stages:
     - stage:
+        name: Holder Stage
+        identifier: Holder_Stage
+        description: ""
+        type: CI
+        spec:
+          cloneCodebase: true
+          caching:
+            enabled: true
+            override: false
+          buildIntelligence:
+            enabled: true
+          platform:
+            os: Linux
+            arch: Amd64
+          runtime:
+            type: Cloud
+            spec: {}
+          execution:
+            steps:
+              - step:
+                  type: Run
+                  name: Run Script
+                  identifier: Run_Script
+                  spec:
+                    shell: Sh
+                    command: ls -lha
+    - stage:
+        name: Starting Approval
+        identifier: Starting_Approval
+        description: ""
+        type: Approval
+        spec:
+          execution:
+            steps:
+              - step:
+                  name: Approval for MCP Test
+                  identifier: Approval_for_MCP_Test
+                  type: HarnessApproval
+                  timeout: 1d
+                  spec:
+                    approvalMessage: Welcome to the Vibepad-plus-plus pipeline! Before continuing this testing pipeline, please approve it!
+                    includePipelineExecutionHistory: true
+                    approvers:
+                      minimumCount: 1
+                      disallowPipelineExecutor: false
+                      userGroups:
+                        - _project_all_users
+                    isAutoRejectEnabled: false
+                    approverInputs: []
+        tags: {}
+    - stage:
         name: Build and Test
         identifier: Build_and_Test
         description: ""
@@ -187,7 +238,7 @@ pipeline:
                         memory: 500Mi
                         cpu: "0.5"
         when:
-          pipelineStatus: All
+          pipelineStatus: Failure
     - stage:
         name: Deploy to Local
         identifier: Deploy_to_Local
@@ -234,6 +285,8 @@ pipeline:
                 - AllErrors
               action:
                 type: StageRollback
+        when:
+          pipelineStatus: Failure
     - stage:
         name: Deploy to GCP
         identifier: Deploy_to_GCP
@@ -276,5 +329,5 @@ pipeline:
         delegateSelectors:
           - nmccarthy-kubernetes-delegate
         when:
-          pipelineStatus: Success
+          pipelineStatus: Failure
           condition: "false"
