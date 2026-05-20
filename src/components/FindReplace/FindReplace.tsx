@@ -12,7 +12,6 @@ import {
 } from 'lucide-react'
 import { useSettingsStore } from '@/stores/settingsStore'
 import { useFileStore } from '@/stores/fileStore'
-import { recordSearchQueryForSync } from '@/services/workspaceLookupSql'
 import type { FindMatch } from '@/types'
 
 export function FindReplace() {
@@ -36,8 +35,6 @@ export function FindReplace() {
       setMatches([])
       return
     }
-
-    recordSearchQueryForSync(findOptions.searchText, findOptions.searchInAllFiles)
 
     const searchTargets = findOptions.searchInAllFiles
       ? tabs
